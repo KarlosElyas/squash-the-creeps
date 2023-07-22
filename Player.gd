@@ -1,0 +1,33 @@
+extends CharacterBody3D
+
+@export var speed = 14
+@export var fall_acceleration = 75 #gravidade
+
+var target_velocity = Vector3.ZERO
+
+func _physics_process(delta):
+	var direction = Vector3.ZERO
+	
+	if Input.is_action_pressed("move_right"):
+		direction.x += 1
+	if Input.is_action_pressed("move_left"):
+		direction.x -= 1
+	if Input.is_action_pressed("move_back"):
+		direction.z += 1
+	if Input.is_action_pressed("move_forward"):
+		direction.z -= 1
+	
+	if direction != Vector3.ZERO:
+		direction = direction.normalized()
+		# soma a posição com direção e olha pra ela
+		get_node("Pivot").look_at(position + direction, Vector3.UP)
+	
+	target_velocity.x = direction.x * speed
+	target_velocity.z = direction.z * speed
+	
+	if not is_on_floor():
+		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+	
+	# aqui é usado velocidade ao inves de posição
+	velocity = target_velocity # recebe o valor não acrescenta
+	move_and_slide()
