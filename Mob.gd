@@ -3,7 +3,10 @@ extends CharacterBody3D
 @export var min_speed = 10
 @export var max_speed = 18
 
+signal squashed
+
 func _physics_process(delta):
+	delta = delta#pra tirar a msg
 	move_and_slide()
 
 func initialize(start_position, player_position):
@@ -20,4 +23,8 @@ func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free() #quem sabe um dia isso funcione!
 
 func _on_autodestroi_timeout():
+	queue_free()
+
+func squash():
+	squashed.emit() # pra usar na pontuação
 	queue_free()
