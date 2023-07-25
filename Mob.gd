@@ -5,8 +5,7 @@ extends CharacterBody3D
 
 signal squashed
 
-func _physics_process(delta):
-	delta = delta#pra tirar a msg
+func _physics_process(_delta):
 	move_and_slide()
 
 func initialize(start_position, player_position):

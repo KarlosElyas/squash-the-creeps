@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal hit
+
 @export var speed = 14
 @export var fall_acceleration = 75 #gravidade
 
@@ -7,6 +9,10 @@ extends CharacterBody3D
 @export var bounce_impulse = 16
 
 var target_velocity = Vector3.ZERO
+
+func _unhandled_input(event):
+	if event.is_action_pressed("jump"):
+		target_velocity.y = jump_impulse
 
 func _physics_process(delta):
 	var direction = Vector3.ZERO
@@ -31,12 +37,9 @@ func _physics_process(delta):
 	if not is_on_floor():
 		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
 	
-	# aqui é usado velocidade ao inves de posição
-	velocity = target_velocity # recebe o valor não acrescenta
-	
 	# existe uma forma mais correta de verifica input jump
-	if is_on_floor() and Input.is_action_just_pressed("jump"):
-		target_velocity.y = jump_impulse
+#	if is_on_floor() and Input.is_action_just_pressed("jump"):
+#		target_velocity.y = jump_impulse
 	
 	for index in range(get_slide_collision_count()):
 		var collision = get_slide_collision(index)
@@ -52,4 +55,13 @@ func _physics_process(delta):
 				mob.squash()
 				target_velocity.y = bounce_impulse
 	
+	# aqui é usado velocidade ao inves de posição
+	velocity = target_velocity # recebe o valor não acrescenta
 	move_and_slide()
+
+func die():
+	hit.emit()
+	queue_free()
+
+func _on_mob_detector_body_entered(_body):
+	die()
