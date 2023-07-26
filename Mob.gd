@@ -13,6 +13,8 @@ func initialize(start_position, player_position):
 	
 	rotate_y(randf_range(-PI / 4, PI / 4)) #define a rotação
 	var random_speed = randi_range(min_speed, max_speed)
+	# calcula o tempo de autodestruição de acordo com a velocidade
+	$autodestroi.wait_time = 40.0 / random_speed
 	velocity = Vector3.FORWARD * random_speed
 	# ajustando a DIREÇÃO de acordo com o EIXO Y do mob
 	velocity = velocity.rotated(Vector3.UP, rotation.y)

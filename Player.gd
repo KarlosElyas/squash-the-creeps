@@ -11,7 +11,7 @@ signal hit
 var target_velocity = Vector3.ZERO
 
 func _unhandled_input(event):
-	if event.is_action_pressed("jump"):
+	if is_on_floor() and event.is_action_pressed("jump"):
 		target_velocity.y = jump_impulse
 
 func _physics_process(delta):
