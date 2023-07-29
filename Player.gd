@@ -30,6 +30,10 @@ func _physics_process(delta):
 		direction = direction.normalized()
 		# soma a posição com direção e olha pra ela
 		get_node("Pivot").look_at(position + direction, Vector3.UP)
+		
+		$AnimationPlayer.speed_scale = 4
+	else:
+		$AnimationPlayer.speed_scale = 1
 	
 	target_velocity.x = direction.x * speed
 	target_velocity.z = direction.z * speed
@@ -58,6 +62,8 @@ func _physics_process(delta):
 	# aqui é usado velocidade ao inves de posição
 	velocity = target_velocity # recebe o valor não acrescenta
 	move_and_slide()
+	# pra fazer a animação de pulo
+	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
 
 func die():
 	hit.emit()

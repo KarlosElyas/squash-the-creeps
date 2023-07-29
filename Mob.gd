@@ -19,6 +19,8 @@ func initialize(start_position, player_position):
 	# ajustando a DIREÇÃO de acordo com o EIXO Y do mob
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 	# neste caso o VECTOR3.UP respresenta o EIXO Y que é girado
+	
+	$AnimationPlayer.speed_scale = random_speed / min_speed
 
 func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free() #quem sabe um dia isso funcione!
